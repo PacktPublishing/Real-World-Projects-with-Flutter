@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_weather_app/ui/Weather.dart';
+import 'package:my_weather_app/model/WeatherData.dart';
+import 'package:my_weather_app/api/MapApi.dart';
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
@@ -12,6 +14,14 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
 
+  WeatherData _weatherData;
+
+  @override
+  void initState() {
+    super.initState();
+    getCurrentLocation();
+  }
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -21,7 +31,25 @@ class _MyHomePageState extends State<MyHomePage> {
         // the App.build method, and use it to set our appbar title.
         title: new Text(widget.title),
       ),
-      body: Weather(),
+      body: _weatherData != null ? Weather(weatherData: _weatherData) :
+        Center(
+          child: CircularProgressIndicator(
+            strokeWidth: 4.0,
+            valueColor: AlwaysStoppedAnimation(Colors.white),
+          ),
+        ),
     );
+  }
+
+  getCurrentLocation() {
+    loadWeather(lat: 40.71, lon: -74.01);
+  }
+
+  loadWeather({double lat, double lon}) async {
+    MapApi mapApi = MapApi.getInstance();
+    final data = await mapApi.getWeather(lat: lat, lon: lon);
+    setState(() {
+      this._weatherData = data;
+    });
   }
 }
