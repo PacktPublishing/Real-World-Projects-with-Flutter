@@ -24,6 +24,7 @@ dependencies:
       path: packages/google_maps_flutter
   cupertino_icons: ^0.1.2
   location: ^1.4.1
+  google_maps_webservice: ^0.0.9
 
 dev_dependencies:
   flutter_test:
