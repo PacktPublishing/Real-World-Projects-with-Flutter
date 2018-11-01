@@ -19,6 +19,51 @@ class _MyMapPageState extends State<MyMapPage> {
   GoogleMapController mapController;
   MyLocationData _myLocationData;
   CoffeeShopsData _shops;
+  Marker _selectedMarker;
+  String _shopName;
+  String _shopImage;
+
+  void _updateSelectedMarker(MarkerOptions changes) {
+    mapController.updateMarker(_selectedMarker, changes);
+  }
+
+  void _onMarkerTapped(Marker marker) {
+    if(_selectedMarker != null) {
+      _updateSelectedMarker(MarkerOptions(
+        icon: BitmapDescriptor.defaultMarker,
+      ));
+    }
+    setState(() {
+      _selectedMarker = marker;
+    });
+    var selectedShop = _shops.shopList.singleWhere(
+        (shop) => shop.name == marker.options.infoWindowText.title,
+      orElse: () => null
+    );
+    _shopName = selectedShop.name;
+    _shopImage = selectedShop.photoRef;
+    _updateSelectedMarker(
+      MarkerOptions(
+        icon: BitmapDescriptor.defaultMarkerWithHue(
+          BitmapDescriptor.hueGreen
+        ),
+        infoWindowText: InfoWindowText(_shopName, ''),
+      )
+    );
+  }
+
+  _addMarkers(CoffeeShopsData places) {
+    places.shopList.forEach((shop) {
+      mapController.addMarker(
+          MarkerOptions(
+            position: LatLng(
+                shop.lat,
+                shop.lon),
+            infoWindowText: InfoWindowText(shop.name, ''),
+          ),
+      );
+    });
+  }
 
   Future<CoffeeShopsData> _getCoffeeShops() async {
     final shopsApi = CoffeeShopsApi.getInstance();
@@ -45,6 +90,8 @@ class _MyMapPageState extends State<MyMapPage> {
     _shops = await _getCoffeeShops();
     setState(() {
       mapController = controller;
+      _addMarkers(_shops);
+      mapController.onMarkerTapped.add(_onMarkerTapped);
     });
   }
   @override
