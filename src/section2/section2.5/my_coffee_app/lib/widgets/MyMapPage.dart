@@ -4,6 +4,7 @@ import 'package:my_coffee_app/api/CoffeeShopsApi.dart';
 import 'package:my_coffee_app/api/MyLocationApi.dart';
 import 'package:my_coffee_app/model/CoffeeShopsData.dart';
 import 'package:my_coffee_app/model/MyLocationData.dart';
+import 'package:my_coffee_app/widgets/CoffeeCard.dart';
 
 class MyMapPage extends StatefulWidget {
   MyMapPage({Key key, this.title}) : super(key: key);
@@ -100,24 +101,36 @@ class _MyMapPageState extends State<MyMapPage> {
       appBar: new AppBar(
         title: new Text(widget.title),
       ),
-      body: new Center(
-        child: _myLocationData != null ? SizedBox(
-          child: GoogleMap(
-            onMapCreated: _onMapCreated,
-            options: GoogleMapOptions(
-              cameraPosition: CameraPosition(
-                  target: LatLng(
-                    _myLocationData.lat,
-                    _myLocationData.lon,
+      body: Stack(
+        children: <Widget>[
+          new Center(
+            child: _myLocationData != null ? SizedBox(
+              child: GoogleMap(
+                onMapCreated: _onMapCreated,
+                options: GoogleMapOptions(
+                  cameraPosition: CameraPosition(
+                    target: LatLng(
+                      _myLocationData.lat,
+                      _myLocationData.lon,
+                    ),
+                    zoom: 14.0,
                   ),
-                zoom: 14.0,
+                ),
               ),
+            ) : CircularProgressIndicator(
+              strokeWidth: 4.0,
+              valueColor: AlwaysStoppedAnimation(Colors.white),
             ),
           ),
-        ) : CircularProgressIndicator(
-          strokeWidth: 4.0,
-          valueColor: AlwaysStoppedAnimation(Colors.white),
-        ),
+          Align(
+            child: _selectedMarker != null ? CoffeeCard(
+              shopImage: _shopImage,
+              shopName: _shopName,
+            ) :
+            Container(),
+            alignment: Alignment.bottomCenter,
+          ),
+        ],
       ),
     );
   }
