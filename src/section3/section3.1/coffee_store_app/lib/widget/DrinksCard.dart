@@ -46,6 +46,22 @@ class DrinksCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Card(
+      child: Center(
+        child: Stack(
+          children: <Widget>[
+            Image.asset(
+              drinkType.image,
+              height: double.infinity,
+              width: double.infinity,
+              fit: BoxFit.cover,
+            ),
+            Text(
+              drinkType.title,
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
