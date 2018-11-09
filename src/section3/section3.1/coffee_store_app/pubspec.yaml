@@ -36,6 +36,25 @@ flutter:
   # the material Icons class.
   uses-material-design: true
 
+  assets:
+  - assets/img/black-coffee.jpeg
+  - assets/img/cappuccino.jpeg
+  - assets/img/espresso.jpeg
+  - assets/img/latte.jpeg
+  - assets/img/black-tea.jpeg
+  - assets/img/brown-tea.jpeg
+  - assets/img/english-tea.jpeg
+  - assets/img/herbal-tea.jpeg
+  - assets/img/lemon.jpeg
+  - assets/img/lime.jpeg
+  - assets/img/mint-tea.jpeg
+  - assets/img/pink-grape.jpeg
+  - assets/img/plum.jpeg
+  - assets/img/tomato.jpeg
+  - assets/img/apple-smoothie.jpeg
+  - assets/img/black-smoothie.jpeg
+  - assets/img/kiwi-smoothie.jpeg
+  - assets/img/rasberry-smoothie.jpeg
   # To add assets to your application, add an assets section, like this:
   # assets:
   #  - images/a_dot_burr.jpeg
