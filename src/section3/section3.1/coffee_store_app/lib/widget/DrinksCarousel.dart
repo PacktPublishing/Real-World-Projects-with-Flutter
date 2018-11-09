@@ -7,8 +7,16 @@ class DrinksCarousel extends StatelessWidget {
     return SizedBox(
       height: 250.0,
       width: double.infinity,
-      child: DrinksCard(
-        drinkType: mainTypes[0],
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          border: Border.all(
+            width: 4.0,
+            color: Colors.black,
+          ),
+        ),
+        child: DrinksCard(
+          drinkType: mainTypes[0],
+        ),
       ),
     );
   }

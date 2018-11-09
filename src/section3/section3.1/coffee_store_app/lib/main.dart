@@ -7,11 +7,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Coffee Store App',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: StoreHomePage(title: 'Flutter Demo Home Page'),
+      home: StoreHomePage(title: 'Store Home'),
     );
   }
 }
