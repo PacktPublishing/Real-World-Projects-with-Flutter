@@ -1,7 +1,30 @@
 import 'package:coffee_store_app/widget/DrinksCard.dart';
 import 'package:flutter/material.dart';
 
-class DrinksCarousel extends StatelessWidget {
+class DrinksCarousel extends StatefulWidget {
+  @override
+  DrinksCarouselState createState() {
+    return new DrinksCarouselState();
+  }
+}
+
+class DrinksCarouselState extends State<DrinksCarousel>
+  with SingleTickerProviderStateMixin {
+
+  TabController _tabController;
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(length: coffeeTypes.length, vsync: this);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _tabController.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
