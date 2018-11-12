@@ -1,7 +1,9 @@
 import 'dart:async';
 
+import 'package:coffee_store_app/model/DrinksListModel.darT';
 import 'package:coffee_store_app/widget/DrinksCard.dart';
 import 'package:flutter/material.dart';
+import 'package:scoped_model/scoped_model.dart';
 
 class DrinksCarousel extends StatefulWidget {
   @override
@@ -71,14 +73,43 @@ class DrinksCarouselState extends State<DrinksCarousel>
         ),
         child: Stack(
           children: <Widget>[
-            TabBarView(
-              controller: _tabController,
-              children: mainTypes.map((drinkType) {
-                return DrinksCard(
-                  drinkType: drinkType,
+            ScopedModelDescendant<DrinksListModel> (
+              rebuildOnChange: false,
+              builder: (context, _, model) {
+                return TabBarView(
+                  controller: _tabController,
+                  children: mainTypes.map((drinkType) {
+                    return GestureDetector(
+                      onTap: () {
+                        var type;
+                        switch(drinkType.title) {
+                          case 'Coffee':
+                            type = coffeeTypes;
+                            break;
+                          case 'Tea':
+                            type = teaTypes;
+                            break;
+                          case 'Juice':
+                            type = juiceTypes;
+                            break;
+                          case 'Smoothie':
+                            type = smoothieTypes;
+                            break;
+                          default:
+                            throw '${drinkType.title} type not recognized';
+                        }
+                        _carouselTimer.cancel();
+                        model.updateDrinksList(type);
+                      },
+                      child: DrinksCard(
+                        drinkType: drinkType,
+                      ),
+                    );
+                  }).toList(),
                 );
-              }).toList(),
+              },
             ),
+
             Align(
               alignment: Alignment.bottomCenter,
               child: Padding(
