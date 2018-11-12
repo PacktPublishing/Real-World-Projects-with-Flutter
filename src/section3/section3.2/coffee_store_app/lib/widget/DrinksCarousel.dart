@@ -37,8 +37,48 @@ class DrinksCarouselState extends State<DrinksCarousel>
             color: Colors.black,
           ),
         ),
-        child: DrinksCard(
-          drinkType: mainTypes[0],
+        child: Stack(
+          children: <Widget>[
+            TabBarView(
+              controller: _tabController,
+              children: mainTypes.map((drinkType) {
+                return DrinksCard(
+                  drinkType: drinkType,
+                );
+              }).toList(),
+            ),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TabPageSelector(
+                  controller: _tabController,
+                  color: Colors.white,
+                  indicatorSize: 20.0,
+                ),
+              ),
+            ),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: IconButton(
+                icon: Icon(
+                  Icons.arrow_back,
+                  color: Colors.white,
+                  size: 36.0,
+                ),
+              ),
+            ),
+            Align(
+              alignment: Alignment.centerRight,
+              child: IconButton(
+                icon: Icon(
+                  Icons.arrow_forward,
+                  color: Colors.white,
+                  size: 36.0,
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );
