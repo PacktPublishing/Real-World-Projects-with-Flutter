@@ -25,6 +25,22 @@ class DrinksCarouselState extends State<DrinksCarousel>
     _tabController.dispose();
   }
 
+  void _changeImage({int delta, bool userInput = false}) {
+    var newTabIndex = _tabController.index + delta;
+    if(newTabIndex >= coffeeTypes.length) {
+      newTabIndex = 0;
+    } else if(newTabIndex < 0) {
+      newTabIndex = coffeeTypes.length - 1;
+    }
+    _tabController.animateTo(
+      newTabIndex,
+      duration: Duration(
+        milliseconds: 1000,
+      ),
+      curve: Curves.easeIn,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -66,6 +82,12 @@ class DrinksCarouselState extends State<DrinksCarousel>
                   color: Colors.white,
                   size: 36.0,
                 ),
+                onPressed: () {
+                  _changeImage(
+                    delta: -1,
+                    userInput: true
+                  );
+                },
               ),
             ),
             Align(
@@ -76,6 +98,12 @@ class DrinksCarouselState extends State<DrinksCarousel>
                   color: Colors.white,
                   size: 36.0,
                 ),
+                onPressed: () {
+                  _changeImage(
+                      delta: 1,
+                      userInput: true
+                  );
+                },
               ),
             ),
           ],
