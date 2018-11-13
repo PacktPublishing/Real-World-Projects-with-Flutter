@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:coffee_store_app/model/DrinksListModel.darT';
+import 'package:coffee_store_app/model/DrinksListModel.dart';
 import 'package:coffee_store_app/widget/DrinksCard.dart';
 import 'package:flutter/material.dart';
 import 'package:scoped_model/scoped_model.dart';
