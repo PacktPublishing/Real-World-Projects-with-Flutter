@@ -70,6 +70,7 @@ class DrinksCard extends StatelessWidget {
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
                   drinkType.title,
+                  key: Key('${drinkType.title}_drink_type'),
                   style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,

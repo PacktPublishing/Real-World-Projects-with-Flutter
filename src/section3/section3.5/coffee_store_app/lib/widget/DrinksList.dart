@@ -49,6 +49,7 @@ class DrinksList extends StatelessWidget {
                                     ),
                                     Text(
                                       'Price: \$${drinkType.price}',
+                                      key: Key('${drinkType.title}_order'),
                                     ),
                                   ],
                                 ),
