@@ -1,26 +1,13 @@
 import 'package:flutter/material.dart';
 
-class ProductForm extends StatefulWidget {
-  
+class ProductForm extends StatelessWidget {
+
   final String category;
-
-  const ProductForm({Key key, this.category}) : super(key: key);
-  
-  @override
-  _ProductFormState createState() => _ProductFormState();
-}
-
-class _ProductFormState extends State<ProductForm> {
-  
   final _formKey = GlobalKey<FormState>();
   final _textController = TextEditingController();
-  
-  @override
-  void dispose() {
-    _textController.dispose();
-    super.dispose();
-  }
-  
+
+  ProductForm({Key key, this.category}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -32,15 +19,16 @@ class _ProductFormState extends State<ProductForm> {
               controller: _textController,
               validator: (value) {
                 if(value.isEmpty)
-                  return 'Enter the product ${widget.category}';
+                  return 'Enter the product $category';
               },
             ),
           ),
           RaisedButton(
-            child: Text('Product ${widget.category}'),
+            child: Text('Product $category'),
           )
         ],
       ),
     );
   }
 }
+
