@@ -1,3 +1,4 @@
+import 'package:cafe_scanner_app/widget/Scan.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(MyApp());
@@ -24,7 +25,7 @@ class MyApp extends StatelessWidget {
           ),
           body: TabBarView(
               children: [
-
+                Scan(),
               ],
           ),
         ),
