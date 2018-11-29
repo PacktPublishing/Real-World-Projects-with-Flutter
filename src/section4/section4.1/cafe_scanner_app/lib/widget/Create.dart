@@ -1,3 +1,5 @@
+import 'package:cafe_scanner_app/widget/QrCodeImage.dart';
+import 'package:cafe_scanner_app/widget/QrForm.dart';
 import 'package:flutter/material.dart';
 
 class Create extends StatefulWidget {
@@ -10,7 +12,8 @@ class _CreateState extends State<Create> {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-
+        QrForm(),
+        QrCodeImage(),
       ],
     );
   }
