@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "861156767931",
+    "firebase_url": "https://cafe-qr-scanner.firebaseio.com",
+    "project_id": "cafe-qr-scanner",
+    "storage_bucket": "cafe-qr-scanner.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:861156767931:android:2a8001208fa81fd7",
+        "android_client_info": {
+          "package_name": "com.nigelhenshaw.cafescannerapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "861156767931-rjonulie7bedus86d7psdiob4rq3co58.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCV95NoCOjqVh4IQB30w8bUodijQmOqS8c"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
