@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:cafe_scanner_app/api/FireStorage.dart';
 import 'package:cafe_scanner_app/api/FirebaseQrDetector.dart';
+import 'package:cafe_scanner_app/widget/ProductDialog.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:image_cropper/image_cropper.dart';
@@ -16,6 +17,18 @@ class _ScanState extends State<Scan> {
   List<CameraDescription> cameras;
   CameraController controller;
   bool isCameraInitialized = false;
+
+  void _productCallback(product) {
+    if(product != null)
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return ProductDialog(
+            product: product,
+          );
+        }
+      );
+  }
   
   void _initializeController() {
     controller = CameraController(cameras[0], ResolutionPreset.medium);
@@ -93,7 +106,7 @@ class _ScanState extends State<Scan> {
             ), onPressed: () {
               saveQrCode().then((filePath) {
                 _cropImage(File(filePath)).then((croppedImage) {
-                  FirebaseQrDetector(croppedImage).detectQrCode();
+                  FirebaseQrDetector(croppedImage, _productCallback).detectQrCode();
                 });
               });
           },

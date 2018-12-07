@@ -1,11 +1,14 @@
+import 'dart:convert';
 import 'dart:io';
+import 'package:cafe_scanner_app/model/Product.dart';
 import 'package:firebase_ml_vision/firebase_ml_vision.dart';
 
 class FirebaseQrDetector {
 
   final File imageFile;
+  final Function(Product) productCallback;
 
-  FirebaseQrDetector(this.imageFile);
+  FirebaseQrDetector(this.imageFile, this.productCallback);
 
   void detectQrCode() async {
     final visionImage = FirebaseVisionImage.fromFile(imageFile);
@@ -20,6 +23,9 @@ class FirebaseQrDetector {
   _extractProduct(List<Barcode> barcodes) {
     for(Barcode barcode in barcodes) {
       final String rawValue = barcode.rawValue;
+      final Map productMap = json.decode(rawValue);
+      final Product product = Product.fromJson(productMap);
+      productCallback(product);
     }
   }
 }
