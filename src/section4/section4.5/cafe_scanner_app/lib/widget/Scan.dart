@@ -2,7 +2,8 @@ import 'dart:io';
 
 import 'package:cafe_scanner_app/api/FireStorage.dart';
 import 'package:cafe_scanner_app/api/FirebaseQrDetector.dart';
-import 'package:cafe_scanner_app/widget/ProductDialog.dart';
+import 'package:cafe_scanner_app/model/Product.dart';
+import 'package:cafe_scanner_app/widget/ScannedProduct.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:image_cropper/image_cropper.dart';
@@ -17,19 +18,15 @@ class _ScanState extends State<Scan> {
   List<CameraDescription> cameras;
   CameraController controller;
   bool isCameraInitialized = false;
+  Product _product;
 
   void _productCallback(product) {
     if(product != null)
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return ProductDialog(
-            product: product,
-          );
-        }
-      );
+      setState(() {
+        _product = product;
+      });
   }
-  
+
   void _initializeController() {
     controller = CameraController(cameras[0], ResolutionPreset.medium);
     controller.initialize().then((_) {
@@ -74,42 +71,49 @@ class _ScanState extends State<Scan> {
       maxHeight: 250,
     );
   }
-  
+
   @override
   Widget build(BuildContext context) {
     if(!isCameraInitialized)
       return Container();
     else
-      return Column(
+      return ListView(
         children: <Widget>[
-          Container(
-            width: 200,
-            height: 200,
-            child: ClipRect(
-              child: OverflowBox(
-                alignment: Alignment.center,
-                child: FittedBox(
-                  fit: BoxFit.fitWidth,
-                  child: Container(
-                    width: 250,
-                    height: 250/controller.value.aspectRatio,
-                    child: CameraPreview(controller),
+          Column(
+            children: <Widget>[
+              Container(
+                width: 200,
+                height: 200,
+                child: ClipRect(
+                  child: OverflowBox(
+                    alignment: Alignment.center,
+                    child: FittedBox(
+                      fit: BoxFit.fitWidth,
+                      child: Container(
+                        width: 250,
+                        height: 250/controller.value.aspectRatio,
+                        child: CameraPreview(controller),
+                      ),
+                    ),
                   ),
                 ),
               ),
-            ),
-          ),
-          IconButton(
-            icon: Icon(
-              Icons.camera_alt,
-              size: 50,
-            ), onPressed: () {
-              saveQrCode().then((filePath) {
-                _cropImage(File(filePath)).then((croppedImage) {
-                  FirebaseQrDetector(croppedImage, _productCallback).detectQrCode();
+              IconButton(
+                icon: Icon(
+                  Icons.camera_alt,
+                  size: 50,
+                ), onPressed: () {
+                saveQrCode().then((filePath) {
+                  _cropImage(File(filePath)).then((croppedImage) {
+                    FirebaseQrDetector(croppedImage, _productCallback).detectQrCode();
+                  });
                 });
-              });
-          },
+              },
+              )
+            ],
+          ),
+          ScannedProduct(
+            product: _product,
           )
         ],
       );
