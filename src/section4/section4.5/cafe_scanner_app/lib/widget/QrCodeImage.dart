@@ -15,8 +15,6 @@ class QrCodeImage extends StatelessWidget {
 
   QrCodeImage({Key key, this.product}) : super(key: key);
 
-  void _productCallback(product) {}
-
   Future<File> _captureByteData() async {
     RenderRepaintBoundary boundary = _repaintQrImage.currentContext.findRenderObject();
     ui.Image image = await boundary.toImage(
@@ -42,7 +40,7 @@ class QrCodeImage extends StatelessWidget {
             child: GestureDetector(
               onTap: () {
                 _captureByteData().then((imageFile) {
-                  FirebaseQrDetector(imageFile, _productCallback).detectQrCode();
+                  FirebaseQrDetector(imageFile).detectQrCode();
                 });
               },
               child: QrImage(

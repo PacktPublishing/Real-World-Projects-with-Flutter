@@ -6,26 +6,26 @@ import 'package:firebase_ml_vision/firebase_ml_vision.dart';
 class FirebaseQrDetector {
 
   final File imageFile;
-  final Function(Product) productCallback;
 
-  FirebaseQrDetector(this.imageFile, this.productCallback);
+  FirebaseQrDetector(this.imageFile);
 
-  void detectQrCode() async {
+  Future<Product> detectQrCode() async {
     final visionImage = FirebaseVisionImage.fromFile(imageFile);
     BarcodeDetectorOptions options = BarcodeDetectorOptions(
       barcodeFormats: BarcodeFormat.qrCode,
     );
     final detector = FirebaseVision.instance.barcodeDetector(options);
     final List<Barcode> barcodes = await detector.detectInImage(visionImage);
-    _extractProduct(barcodes);
+    return _extractProduct(barcodes);
   }
 
   _extractProduct(List<Barcode> barcodes) {
+    Product product;
     for(Barcode barcode in barcodes) {
       final String rawValue = barcode.rawValue;
       final Map productMap = json.decode(rawValue);
-      final Product product = Product.fromJson(productMap);
-      productCallback(product);
+      product = Product.fromJson(productMap);
     }
+    return product;
   }
 }

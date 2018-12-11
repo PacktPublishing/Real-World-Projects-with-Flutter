@@ -2,10 +2,14 @@ import 'dart:io';
 
 import 'package:cafe_scanner_app/api/FireStorage.dart';
 import 'package:cafe_scanner_app/api/FirebaseQrDetector.dart';
+import 'package:cafe_scanner_app/bloc/camera_bloc.dart';
+import 'package:cafe_scanner_app/bloc/camera_event.dart';
+import 'package:cafe_scanner_app/bloc/camera_state.dart';
 import 'package:cafe_scanner_app/model/Product.dart';
 import 'package:cafe_scanner_app/widget/ScannedProduct.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_cropper/image_cropper.dart';
 
 class Scan extends StatefulWidget {
@@ -18,14 +22,7 @@ class _ScanState extends State<Scan> {
   List<CameraDescription> cameras;
   CameraController controller;
   bool isCameraInitialized = false;
-  Product _product;
-
-  void _productCallback(product) {
-    if(product != null)
-      setState(() {
-        _product = product;
-      });
-  }
+  final CameraBloc cameraBloc = CameraBloc();
 
   void _initializeController() {
     controller = CameraController(cameras[0], ResolutionPreset.medium);
@@ -77,45 +74,55 @@ class _ScanState extends State<Scan> {
     if(!isCameraInitialized)
       return Container();
     else
-      return ListView(
-        children: <Widget>[
-          Column(
+      return BlocBuilder(
+        bloc: cameraBloc,
+        builder: (BuildContext context, CameraState state) {
+          return ListView(
             children: <Widget>[
-              Container(
-                width: 200,
-                height: 200,
-                child: ClipRect(
-                  child: OverflowBox(
-                    alignment: Alignment.center,
-                    child: FittedBox(
-                      fit: BoxFit.fitWidth,
-                      child: Container(
-                        width: 250,
-                        height: 250/controller.value.aspectRatio,
-                        child: CameraPreview(controller),
+              Column(
+                children: <Widget>[
+                  Container(
+                    width: 200,
+                    height: 200,
+                    child: ClipRect(
+                      child: OverflowBox(
+                        alignment: Alignment.center,
+                        child: FittedBox(
+                          fit: BoxFit.fitWidth,
+                          child: Container(
+                            width: 250,
+                            height: 250/controller.value.aspectRatio,
+                            child: CameraPreview(controller),
+                          ),
+                        ),
                       ),
                     ),
                   ),
-                ),
+                  IconButton(
+                    icon: Icon(
+                      Icons.camera_alt,
+                      size: 50,
+                    ), onPressed: () {
+                    saveQrCode().then((filePath) {
+                      _cropImage(File(filePath)).then((croppedImage) {
+                        FirebaseQrDetector(croppedImage).detectQrCode().then((product) {
+                          cameraBloc.dispatch(CameraCapture(
+                            product: product,
+                          ));
+                        });
+                      });
+                    });
+                  },
+                  )
+                ],
               ),
-              IconButton(
-                icon: Icon(
-                  Icons.camera_alt,
-                  size: 50,
-                ), onPressed: () {
-                saveQrCode().then((filePath) {
-                  _cropImage(File(filePath)).then((croppedImage) {
-                    FirebaseQrDetector(croppedImage, _productCallback).detectQrCode();
-                  });
-                });
-              },
+              ScannedProduct(
+                product: state.product,
               )
             ],
-          ),
-          ScannedProduct(
-            product: _product,
-          )
-        ],
+          );
+
+        },
       );
   }
 }
