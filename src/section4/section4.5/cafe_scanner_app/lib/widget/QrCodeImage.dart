@@ -31,28 +31,31 @@ class QrCodeImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Padding(
-        padding: const EdgeInsets.only(
-          top: 60,
-        ),
-        child: RepaintBoundary(
-          key: _repaintQrImage,
-          child: GestureDetector(
-            onTap: () {
-              _captureByteData().then((imageFile) {
-                FirebaseQrDetector(imageFile, _productCallback).detectQrCode();
-              });
-            },
-            child: QrImage(
-              backgroundColor: Colors.white,
-              padding: EdgeInsets.all(40.0),
-              data: product,
-              size: 300,
+    if(product != null)
+      return Expanded(
+        child: Padding(
+          padding: const EdgeInsets.only(
+            top: 60,
+          ),
+          child: RepaintBoundary(
+            key: _repaintQrImage,
+            child: GestureDetector(
+              onTap: () {
+                _captureByteData().then((imageFile) {
+                  FirebaseQrDetector(imageFile, _productCallback).detectQrCode();
+                });
+              },
+              child: QrImage(
+                backgroundColor: Colors.white,
+                padding: EdgeInsets.all(40.0),
+                data: product,
+                size: 300,
+              ),
             ),
           ),
         ),
-      ),
-    );
+      );
+    else
+      return Container();
   }
 }

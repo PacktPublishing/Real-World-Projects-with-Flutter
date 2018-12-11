@@ -1,16 +1,21 @@
+import 'package:cafe_scanner_app/bloc/qr_bloc.dart';
+import 'package:cafe_scanner_app/bloc/qr_event.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ProductForm extends StatelessWidget {
 
-  final Function(String) productCallback;
   final String category;
   final _formKey = GlobalKey<FormState>();
   final _textController = TextEditingController();
 
-  ProductForm({Key key, this.category, this.productCallback}) : super(key: key);
+  ProductForm({Key key, this.category}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+
+    final QrBloc qrBloc = BlocProvider.of<QrBloc>(context);
+
     return Form(
       key: _formKey,
       child: Row(
@@ -26,7 +31,9 @@ class ProductForm extends StatelessWidget {
           ),
           RaisedButton(
             onPressed: () {
-              productCallback(_textController.text);
+              qrBloc.dispatch(FormQrEvent(
+                productItem: _textController.text,
+              ));
             },
             child: Text('Product $category'),
           )
