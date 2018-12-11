@@ -5,7 +5,6 @@ import 'package:cafe_scanner_app/api/FirebaseQrDetector.dart';
 import 'package:cafe_scanner_app/bloc/camera_bloc.dart';
 import 'package:cafe_scanner_app/bloc/camera_event.dart';
 import 'package:cafe_scanner_app/bloc/camera_state.dart';
-import 'package:cafe_scanner_app/model/Product.dart';
 import 'package:cafe_scanner_app/widget/ScannedProduct.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
