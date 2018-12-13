@@ -4,7 +4,6 @@ import 'package:bloc/bloc.dart';
 import 'package:cafe_scanner_app/bloc/qr_event.dart';
 import 'package:cafe_scanner_app/bloc/qr_state.dart';
 import 'package:cafe_scanner_app/model/Product.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class QrBloc extends Bloc<QrEvent, QrState> {
 
