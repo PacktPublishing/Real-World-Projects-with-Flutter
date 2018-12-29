@@ -13,6 +13,14 @@ class _HomeState extends State<Home> {
   List<String> _paths = [
   ];
 
+  void _updateGallery() {
+    Storage.getFilePaths().then((paths) {
+      setState(() {
+        _paths = paths;
+      });
+    });
+  }
+
   @override
   void initState() {
     super.initState();
@@ -27,7 +35,9 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Stack(
       children: <Widget>[
-        Camera(),
+        Camera(
+          captureCallback: _updateGallery,
+        ),
         Align(
           alignment: Alignment(0, 0.95),
           child: Container(

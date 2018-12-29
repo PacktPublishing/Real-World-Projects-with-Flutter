@@ -55,7 +55,7 @@ class _CameraState extends State<Camera> {
     if(!_controller.value.isTakingPicture)
       try {
         await _controller.takePicture(path);
-//        widget.captureCallback();
+        widget.captureCallback();
         completer.complete(path);
       }  on CameraException catch(e) {
       throw Exception('Failed to capture image: $e');

@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:share/share.dart';
 
 class ShareImage extends StatelessWidget {
 
@@ -20,22 +23,26 @@ class ShareImage extends StatelessWidget {
           IconButton(
             icon: Icon(Icons.delete),
             onPressed: () {
+              File(imagePath).delete();
               Navigator.popAndPushNamed(context, '/');
             },
           ),
           IconButton(
             icon: Icon(Icons.share),
             onPressed: () {
-
+              Share.shareFile(File(imagePath));
             },
           )
         ],
       ),
-      body: Image.asset(
-        imagePath,
-        width: double.infinity,
-        height: double.infinity,
-        fit: BoxFit.cover,
+      body: Hero(
+        tag: '$imagePath',
+        child: Image.asset(
+          imagePath,
+          width: double.infinity,
+          height: double.infinity,
+          fit: BoxFit.cover,
+        ),
       ),
     );
   }
