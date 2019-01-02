@@ -1,28 +1,29 @@
 import 'dart:async';
 
 import 'package:coffee_selfie_app/api/storage.dart';
+import 'package:coffee_selfie_app/redux/actions/actions.dart';
+import 'package:coffee_selfie_app/redux/models/app_state.dart';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 
 class Camera extends StatefulWidget {
 
-  final Function() captureCallback;
-
-  const Camera({Key key, this.captureCallback}) : super(key: key);
+  const Camera({Key key}) : super(key: key);
 
   @override
-  _CameraState createState() => _CameraState();
+  CameraState createState() => CameraState();
 }
 
-class _CameraState extends State<Camera> {
+class CameraState extends State<Camera> {
 
   List<CameraDescription> cameras;
-  CameraController _controller;
+  static CameraController controller;
   bool isCameraInitialized = false;
 
   void _initializeController() {
-    _controller = CameraController(cameras[1], ResolutionPreset.medium);
-    _controller.initialize().then((_) {
+    controller = CameraController(cameras[1], ResolutionPreset.medium);
+    controller.initialize().then((_) {
       if(!mounted)
         return;
       setState(() {
@@ -45,17 +46,16 @@ class _CameraState extends State<Camera> {
 
   @override
   void dispose() {
-    _controller.dispose();
+    controller.dispose();
     super.dispose();
   }
 
-  Future<String> _captureImage() async {
+  static Future<String> captureImage() async {
     var path = await Storage.getFilePath();
     var completer = Completer<String>();
-    if(!_controller.value.isTakingPicture)
+    if(!controller.value.isTakingPicture)
       try {
-        await _controller.takePicture(path);
-        widget.captureCallback();
+        await controller.takePicture(path);
         completer.complete(path);
       }  on CameraException catch(e) {
       throw Exception('Failed to capture image: $e');
@@ -74,11 +74,11 @@ class _CameraState extends State<Camera> {
       return Stack(
         children: <Widget>[
           Transform.scale(
-            scale: _controller.value.aspectRatio / deviceRatio,
+            scale: controller.value.aspectRatio / deviceRatio,
             child: Center(
               child: AspectRatio(
-                aspectRatio: _controller.value.aspectRatio,
-                child: CameraPreview(_controller),
+                aspectRatio: controller.value.aspectRatio,
+                child: CameraPreview(controller),
               ),
             ),
           ),
@@ -87,14 +87,20 @@ class _CameraState extends State<Camera> {
               data: ThemeData(
                 accentColor: Color.fromRGBO(0, 0, 0, 0.4),
               ),
-              child: FloatingActionButton(
-                child: Icon(
-                  Icons.camera_alt,
-                  size: 36.0,
-                  color: Color.fromRGBO(255, 255, 255, 0.4),
-                ),
-                onPressed: () {
-                  _captureImage();
+              child: StoreConnector<AppState, VoidCallback>(
+                converter: (store) {
+                  return () => store.dispatch(CaptureImageAction());
+                },
+                builder: (context, callback) {
+                  return
+                    FloatingActionButton(
+                      child: Icon(
+                        Icons.camera_alt,
+                        size: 36.0,
+                        color: Color.fromRGBO(255, 255, 255, 0.4),
+                      ),
+                      onPressed: callback,
+                    );
                 },
               ),
             ),

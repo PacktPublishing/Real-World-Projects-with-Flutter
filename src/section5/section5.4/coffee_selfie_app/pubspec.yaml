@@ -13,6 +13,7 @@ environment:
   sdk: ">=2.0.0-dev.68.0 <3.0.0"
 
 dependencies:
+  flutter_redux: ^0.5.2
   share:
     git:
       url: https://github.com/pboos/plugins.git
