@@ -11,6 +11,17 @@ class _ChatScreenState extends State<ChatScreen> {
 
   final List<Map<String, dynamic>> _dummySnapshot = [];
 
+  void _sendMessageCallback(String text) {
+    setState(() {
+      _dummySnapshot.insert(0, {
+        'name': 'Nigel',
+        'avatarUrl': '',
+        'photoUrl': '',
+        'text': text,
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,9 +31,9 @@ class _ChatScreenState extends State<ChatScreen> {
       ),
       body: Column(
         children: <Widget>[
-          ChatList(),
+          ChatList(snapshots: _dummySnapshot,),
           Divider(height: 1.0,),
-          TextComposer(),
+          TextComposer(sendCallback: _sendMessageCallback,),
         ],
       ),
     );
