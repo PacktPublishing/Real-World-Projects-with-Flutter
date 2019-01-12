@@ -13,6 +13,9 @@ environment:
   sdk: ">=2.0.0-dev.68.0 <3.0.0"
 
 dependencies:
+  flutter_signin_button: ^0.2.5
+  firebase_auth: ^0.6.6
+  google_sign_in: ^3.2.4
   flutter:
     sdk: flutter
 
