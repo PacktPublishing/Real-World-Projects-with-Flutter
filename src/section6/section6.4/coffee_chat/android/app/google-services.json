@@ -1,0 +1,62 @@
+{
+  "project_info": {
+    "project_number": "341303336189",
+    "firebase_url": "https://coffee-chat-1d9f2.firebaseio.com",
+    "project_id": "coffee-chat-1d9f2",
+    "storage_bucket": "coffee-chat-1d9f2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:341303336189:android:bf35d8069968aa83",
+        "android_client_info": {
+          "package_name": "com.nigelhenshaw.coffeechat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "341303336189-5nht05sd2vfbktmdggbja4a1hdg9uj1e.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.nigelhenshaw.coffeechat",
+            "certificate_hash": "36125e433a6393fd70e7b34ebed7b30ebe52dad6"
+          }
+        },
+        {
+          "client_id": "341303336189-joi7khlbnu6qvai3hr7679n7gbkomu4s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCorVU43qTdjiiHSbBWQ1hYWYJx61Ao0o0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "341303336189-joi7khlbnu6qvai3hr7679n7gbkomu4s.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "341303336189-0g04mlabeb6p0bsugk0s625ko2nlk8ej.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.nigelhenshaw.coffeeChat"
+              }
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
