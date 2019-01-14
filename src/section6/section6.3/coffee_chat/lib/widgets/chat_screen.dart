@@ -1,8 +1,10 @@
 import 'package:coffee_chat/widgets/chat_list.dart';
+import 'package:coffee_chat/widgets/firestore_message_stream.dart';
 import 'package:coffee_chat/widgets/text_composer.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 enum MenuItem {signout}
 
@@ -16,6 +18,8 @@ class _ChatScreenState extends State<ChatScreen> {
   final List<Map<String, dynamic>> _dummySnapshot = [];
   final _googleSignIn = GoogleSignIn();
   GoogleSignInAccount _currentUser;
+  final _firebaseAuth = FirebaseAuth.instance;
+  FirebaseUser _firebaseUser;
 
   @override
   void initState() {
@@ -24,9 +28,29 @@ class _ChatScreenState extends State<ChatScreen> {
     _googleSignIn.onCurrentUserChanged.listen((GoogleSignInAccount account) {
       setState(() {
         _currentUser = account;
+        _firebaseAuth.currentUser().then((firebaseUser) {
+          if(_firebaseUser == null)
+            _getFirebaseUser().then((firebaseUser) {
+              setState(() {
+                _firebaseUser = firebaseUser;
+              });
+            });
+          else
+            setState(() {
+              _firebaseUser = firebaseUser;
+            });
+        });
       });
     });
     _googleSignIn.signInSilently();
+  }
+
+  Future<FirebaseUser> _getFirebaseUser() async {
+    var credentials = await _googleSignIn.currentUser.authentication;
+    return await _firebaseAuth.signInWithGoogle(
+        idToken: credentials.idToken,
+        accessToken: credentials.accessToken,
+    );
   }
 
   Future<Null> _handleSignin() async {
@@ -54,7 +78,7 @@ class _ChatScreenState extends State<ChatScreen> {
 
   @override
   Widget build(BuildContext context) {
-    if(_currentUser == null)
+    if(_firebaseUser == null)
       return Scaffold(
         backgroundColor: Colors.lightBlueAccent,
         body: Center(
@@ -95,9 +119,9 @@ class _ChatScreenState extends State<ChatScreen> {
         ),
         body: Column(
           children: <Widget>[
-            ChatList(snapshots: _dummySnapshot,),
+            FirestoreMessageStream(),
             Divider(height: 1.0,),
-            TextComposer(sendCallback: _sendMessageCallback,),
+            TextComposer(currentUser: _currentUser,),
           ],
         ),
       );
