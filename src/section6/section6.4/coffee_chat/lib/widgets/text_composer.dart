@@ -1,6 +1,10 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:image_picker/image_picker.dart';
 
 class TextComposer extends StatefulWidget {
 
@@ -26,14 +30,15 @@ class _TextComposerState extends State<TextComposer> with
     _sendMessage(text: text);
   }
 
-  void _sendMessage({String text}) {
+  void _sendMessage({String text, String photoUrl}) {
     setState(() {
       Firestore.instance.collection('chat_messages').document()
           .setData({
         'name': widget.currentUser.displayName,
         'avatarUrl': widget.currentUser.photoUrl,
-        'photoUrl': null,
+        'photoUrl': photoUrl,
         'text': text,
+        'timestamp': DateTime.now().millisecondsSinceEpoch,
       });
     });
   }
@@ -51,6 +56,18 @@ class _TextComposerState extends State<TextComposer> with
             children: <Widget>[
               IconButton(
                 icon: Icon(Icons.photo),
+                onPressed: () async {
+                  File imageFile = await ImagePicker.pickImage(
+                    source: ImageSource.gallery,
+                    maxWidth: 400.0,
+                    maxHeight: 300.0,
+                  );
+                  String timestamp() => DateTime.now().millisecondsSinceEpoch.toString();
+                  StorageReference ref = FirebaseStorage.instance.ref().child('image_${timestamp()}.jpg');
+                  StorageUploadTask uploadTask = ref.putFile(imageFile);
+                  var downloadUrl = await (await uploadTask.onComplete).ref.getDownloadURL();
+                  _sendMessage(photoUrl: downloadUrl.toString());
+                },
               ),
               Flexible(
                 child: TextField(

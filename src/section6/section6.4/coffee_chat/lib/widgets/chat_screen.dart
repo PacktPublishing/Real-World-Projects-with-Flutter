@@ -1,4 +1,5 @@
 import 'package:coffee_chat/widgets/chat_list.dart';
+import 'package:coffee_chat/widgets/firestore_list_animation.dart';
 import 'package:coffee_chat/widgets/firestore_message_stream.dart';
 import 'package:coffee_chat/widgets/text_composer.dart';
 import 'package:flutter/material.dart';
@@ -119,7 +120,7 @@ class _ChatScreenState extends State<ChatScreen> {
         ),
         body: Column(
           children: <Widget>[
-            FirestoreMessageStream(),
+            FirestoreListAnimation(),
             Divider(height: 1.0,),
             TextComposer(currentUser: _currentUser,),
           ],

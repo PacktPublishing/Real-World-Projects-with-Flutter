@@ -22,14 +22,18 @@ class ChatMessage extends StatelessWidget {
             margin: EdgeInsets.only(right: 16.0),
             child: CircleAvatar(backgroundImage: NetworkImage(record.avatarUrl),),
           ),
-          Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(15.0)),
-              color: Colors.white,
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(15.0),
-              child: Text(record.text),
+          Expanded(
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                color: Colors.white,
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(15.0),
+                child: record.photoUrl != null ?
+                    Image.network(record.photoUrl)
+                : Text(record.text),
+              ),
             ),
           ),
         ],
