@@ -2,8 +2,8 @@ import 'dart:convert';
 
 import 'package:http/http.dart';
 import 'package:my_weather_app/api/MapApi.dart';
-import 'package:test/test.dart';
 import 'package:http/testing.dart';
+import 'package:test_api/test_api.dart';
 
 main() {
 
