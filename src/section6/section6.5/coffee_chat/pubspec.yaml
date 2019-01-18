@@ -7,12 +7,13 @@ description: A new Flutter project.
 # Both the version and the builder number may be overridden in flutter
 # build by specifying --build-name and --build-number, respectively.
 # Read more about versioning at semver.org.
-version: 1.0.0+1
+version: 1.0.0
 
 environment:
   sdk: ">=2.0.0-dev.68.0 <3.0.0"
 
 dependencies:
+  flutter_launcher_icons: ^0.7.0
   firestore_ui: ^1.1.1
   image_picker: ^0.4.10
   firebase_storage: ^1.0.4
@@ -26,6 +27,11 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.2
+
+flutter_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/img/chat.png"
 
 dev_dependencies:
   flutter_test:
@@ -43,6 +49,8 @@ flutter:
   # the material Icons class.
   uses-material-design: true
 
+  assets:
+    - assets/img/chat.png
   # To add assets to your application, add an assets section, like this:
   # assets:
   #  - images/a_dot_burr.jpeg
