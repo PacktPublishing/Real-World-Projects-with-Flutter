@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:my_coffee_app/api/MyLocationApi.dart';
@@ -16,9 +14,8 @@ class MyMapPage extends StatefulWidget {
 
 class _MyMapPageState extends State<MyMapPage> {
 
-  CameraPosition _kInitialPosition;
   GoogleMapController mapController;
-  static MyLocationData _myLocationData;
+  MyLocationData _myLocationData;
 
   Future<MyLocationData> _getLocation() async {
     final locationApi = MyLocationApi.getInstance();
@@ -32,13 +29,6 @@ class _MyMapPageState extends State<MyMapPage> {
     _getLocation().then((location) {
       setState(() {
         _myLocationData = location;
-        _kInitialPosition = CameraPosition(
-          target: LatLng(
-            _myLocationData.lat,
-            _myLocationData.lon,
-          ),
-          zoom: 14,
-        );
       });
     });
   }
@@ -58,7 +48,15 @@ class _MyMapPageState extends State<MyMapPage> {
         child: _myLocationData != null ? SizedBox(
           child: GoogleMap(
             onMapCreated: _onMapCreated,
-            initialCameraPosition: _kInitialPosition,
+            options: GoogleMapOptions(
+              cameraPosition: CameraPosition(
+                target: LatLng(
+                  _myLocationData.lat,
+                  _myLocationData.lon,
+                ),
+                zoom: 14.0,
+              ),
+            ),
           ),
         ) : CircularProgressIndicator(
           strokeWidth: 4.0,
