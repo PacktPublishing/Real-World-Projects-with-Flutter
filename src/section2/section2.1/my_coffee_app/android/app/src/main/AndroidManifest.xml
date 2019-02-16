@@ -17,7 +17,7 @@
         android:label="my_coffee_app"
         android:icon="@mipmap/ic_launcher">
         <meta-data android:name="com.google.android.geo.API_KEY"
-                   android:value="AIzaSyBhdFmsrWXG38La75lpxHZhNMeaycxA-Dg" />
+                   android:value="Add your Google Maps API key here" />
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
