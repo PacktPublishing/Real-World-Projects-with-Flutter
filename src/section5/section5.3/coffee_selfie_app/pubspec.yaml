@@ -18,8 +18,8 @@ dependencies:
       url: https://github.com/pboos/plugins.git
       path: packages/share
       ref: feature/shareFile
-  camera: ^0.2.4
-  path_provider: ^0.4.1
+  camera: <=0.2.4
+  path_provider: <=0.4.1
   flutter:
     sdk: flutter
 
