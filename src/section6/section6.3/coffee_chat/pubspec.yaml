@@ -13,10 +13,10 @@ environment:
   sdk: ">=2.0.0-dev.68.0 <3.0.0"
 
 dependencies:
-  cloud_firestore: ^0.8.2+3
-  flutter_signin_button: ^0.2.5
-  firebase_auth: ^0.6.6
-  google_sign_in: ^3.2.4
+  cloud_firestore: <=0.8.2+3
+  flutter_signin_button: <=0.2.5
+  firebase_auth: <=0.6.6
+  google_sign_in: <=3.2.4
   flutter:
     sdk: flutter
 
