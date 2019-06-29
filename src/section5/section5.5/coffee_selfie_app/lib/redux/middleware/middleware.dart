@@ -9,13 +9,13 @@ void middleware(Store<AppState> store, action, NextDispatcher next) {
   if(action is LoadThumbsAction)
     Storage.getFilePaths().then((paths) {
       store.dispatch(LoadThumbsSucceededAction(paths));
-    }).catchError((Exception error) {
+    }).catchError((Object error) {
       store.dispatch(LoadThumbsFailedAction(error));
     });
   else if(action is CaptureImageAction)
     CameraState.captureImage().then((path) {
       store.dispatch(CaptureImageSucceededAction(path));
-    }).catchError((Exception error) {
+    }).catchError((Object error) {
       store.dispatch(CaptureImageFailedAction(error));
     });
   next(action);
